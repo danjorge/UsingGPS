@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         botaoGerarLocalizacao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                textoLocalizacaoGerada.setText("Wait...");
                 locationManager.requestLocationUpdates("gps", 5000, 0, MainActivity.this);
 
             }
