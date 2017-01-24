@@ -2,4 +2,5 @@
     <string name="app_name">UsingGPS</string>
     <string name="button_get_location">Get Current Location</string>
     <string name="text_logo">logo</string>
+    <string name="text_wait">Wait...</string>
 </resources>
