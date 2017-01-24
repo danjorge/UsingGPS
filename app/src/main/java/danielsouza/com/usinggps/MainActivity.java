@@ -1,6 +1,7 @@
 package danielsouza.com.usinggps;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -31,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements LocationListener {
+public class MainActivity extends Activity implements LocationListener {
 
     private Button botaoGerarLocalizacao;
     private TextView textoLocalizacaoGerada;
@@ -56,41 +57,12 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
        }
     }
 
-    /*@Override
-    protected void onResume() {
-        super.onResume();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.INTERNET
-                }, 10);
-            }
-        } else {
-            configureButton();
-        }
-
-
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case 10:
-                if (grantResults.length >= 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    configureButton();
-                }
-        }
-    }*/
-
     private void configureButton() {
         botaoGerarLocalizacao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 textoLocalizacaoGerada.setText("Wait...");
-                locationManager.requestLocationUpdates("gps", 5000, 0, MainActivity.this);
+                locationManager.requestLocationUpdates("gps", 0, 0, MainActivity.this);
 
             }
         });
@@ -100,37 +72,17 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
 
-    /*@Override
+    @Override
     protected void onPause() {
         super.onPause();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.INTERNET
-                }, 10);
-            }
-        } else {
-            locationManager.removeUpdates(this);
-        }
+        locationManager.removeUpdates(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.INTERNET
-                }, 10);
-            }
-        } else {
-            locationManager.removeUpdates(this);
-        }
-    }*/
+        locationManager.removeUpdates(this);
+    }
 
     @Override
     public void onLocationChanged(final Location location) {
@@ -138,13 +90,19 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         double longitude = location.getLongitude();
 
         String cityName = "";
+        String state = "";
+        String country = "";
+        String allAddress = "";
         Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
         List<Address> addresses;
         try {
             addresses = geocoder.getFromLocation(latitude, longitude, 1);
             if (addresses.size() > 0) {
                 cityName = addresses.get(0).getLocality();
-                textoLocalizacaoGerada.setText(cityName);
+                state = addresses.get(0).getAdminArea();
+                country = addresses.get(0).getCountryName();
+                allAddress = cityName + ", " + state +" - " +country;
+                textoLocalizacaoGerada.setText(allAddress);
             }
         } catch (IOException e) {
             Log.v("MainActivity", e.toString());

@@ -11,15 +11,6 @@
     tools:context="danielsouza.com.usinggps.MainActivity"
     android:background="@color/colorPrimary">
 
-    <Button
-        android:text="Gerar Localização"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="18dp"
-        android:id="@+id/botaoLocalizacaoId" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,4 +20,12 @@
         android:id="@+id/textoLocalizacaoId"
         android:textSize="@dimen/text_medium"
         android:textColor="@color/text_color_light" />
+
+    <Button
+        android:text="@string/button_get_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/botaoLocalizacaoId"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

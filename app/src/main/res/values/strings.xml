@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">UsingGPS</string>
+    <string name="button_get_location">Get Current Location</string>
 </resources>
