@@ -76,10 +76,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
 
-        String cityName = "";
-        String state = "";
-        String country = "";
-        String allAddress = "";
+        String cityName;
+        String state;
+        String country;
+        String allAddress;
         Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
         List<Address> addresses;
         try {
